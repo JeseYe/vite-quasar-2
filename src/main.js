@@ -1,4 +1,10 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 
-createApp(App).mount('#app')
+import { Quasar } from 'quasar'
+import { quasarConfig } from './plugins/quasar.js'
+
+import router from './router'
+import store from './store'
+
+createApp(App).use(Quasar, quasarConfig).use(router).use(store).mount('#app')
