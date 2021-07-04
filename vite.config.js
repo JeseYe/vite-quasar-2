@@ -17,7 +17,28 @@ export default defineConfig({
       '@utils': resolve(__dirname, './src/utils'),
     },
   },
+  server: {
+    https: false,
+    port: 8083,
+    compress: true,
+    open: false, // opens browser window automatically
+    proxy: {
+      // with options
+      '/api': {
+        target: 'http://localhost:8090',
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: { '^/api': '' },
+      },
+    },
+  },
   build: {
+    terserOptions: {
+      compress: {
+        drop_console: true,
+      },
+    },
+    brotliSize: false,
     rollupOptions: {
       output: {
         manualChunks(id) {
