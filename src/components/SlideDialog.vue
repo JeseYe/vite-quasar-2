@@ -1,12 +1,5 @@
 <template>
   <q-page class="q-pa-md">
-    <div>{{ msg }}</div>
-    登录时采用弹框，UI参考知乎
-    <div class="row q-pa-md">
-      <q-btn color="primary" label="reset" @click="resetSlide" />
-      <q-btn color="primary" label="reset" @click="showDialog" />
-    </div>
-
     <q-dialog v-model="showSlideVerifyDialog">
       <q-card>
         <q-card-section class="flex justify-between items-center">
@@ -35,17 +28,27 @@
 
 <script>
   import SlideVerify from 'src/components/SlideVerify.vue'
-  import { ref } from 'vue'
-  export default {
+  import { defineComponent, ref } from 'vue'
+  import { encrypt } from 'src/util/crypto.js'
+  import { useRoute } from 'vue-router'
+
+  export default defineComponent({
+    name: 'SlideDialog',
     components: {
       SlideVerify,
     },
-    setup() {
+    emits: ['confirm', 'close'],
+    setup(props, context) {
       const msg = ref(null)
       const slideRef = ref(null)
-      const showSlideVerifyDialog = ref(false)
+      const showSlideVerifyDialog = ref(true)
+      const route = useRoute()
       const onSuccess = () => {
         msg.value = 'login success'
+        console.log(msg)
+        let json = { code: 'slide-Verify', data: 'success', timestamp: new Date().getMinutes() }
+        const encryptJson = encrypt(JSON.stringify(json))
+        context.emit('confirm', encryptJson)
       }
       const onFail = () => {
         msg.value = ''
@@ -61,7 +64,9 @@
         showSlideVerifyDialog.value = true
       }
       const closeDialog = () => {
-        showSlideVerifyDialog.value = false
+        console.log('67')
+        context.emit('close')
+        // showSlideVerifyDialog.value = false
       }
       return {
         msg,
@@ -75,7 +80,7 @@
         showSlideVerifyDialog,
       }
     },
-  }
+  })
 </script>
 
 <style lang="scss" scoped></style>

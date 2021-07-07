@@ -21,14 +21,12 @@ export default defineConfig({
     https: false,
     port: 8083,
     compress: true,
-    open: false, // opens browser window automatically
     proxy: {
-      // with options
       '/api': {
         target: 'http://localhost:8090',
         changeOrigin: true,
         secure: false,
-        pathRewrite: { '^/api': '' },
+        rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
   },

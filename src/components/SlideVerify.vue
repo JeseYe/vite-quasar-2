@@ -377,7 +377,7 @@
     width: 100%;
     height: 40px;
     line-height: 40px;
-    margin-top: 15px;
+    margin-top: 10px;
     background: #f7f9fa;
     color: #45494c;
     border: 1px solid #e4e7eb;
@@ -397,7 +397,8 @@
     top: 0;
     left: 0;
     width: 40px;
-    height: 40px;
+    height: 38px;
+    border-radius: 2px;
     background: #fff;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
     cursor: pointer;
@@ -430,6 +431,7 @@
   .container-active .slide-verify-slider-mask {
     height: 38px;
     border-width: 1px;
+    border-right: unset;
   }
 
   .container-success .slide-verify-slider-mask-item {
@@ -442,6 +444,7 @@
   .container-success .slide-verify-slider-mask {
     height: 38px;
     border: 1px solid #52ccba;
+    border-right: unset;
     background-color: #d2f4ef;
   }
 
@@ -459,6 +462,7 @@
   .container-fail .slide-verify-slider-mask {
     height: 38px;
     border: 1px solid #f57a7a;
+    border-right: unset;
     background-color: #fce1e1;
   }
 

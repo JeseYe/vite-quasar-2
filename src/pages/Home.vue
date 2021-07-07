@@ -10,36 +10,36 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from 'src/components/HelloWorld.vue'
-import { contentApi } from 'src/api/cms'
-import { onMounted } from 'vue'
-import { useQuasar } from 'quasar'
+  // @ is an alias to /src
+  import HelloWorld from 'src/components/HelloWorld.vue'
+  import { userApi } from 'src/api/user'
+  import { onMounted } from 'vue'
+  import { useQuasar } from 'quasar'
 
-export default {
-  name: 'Home',
-  components: {
-    HelloWorld
-  },
-  setup() {
-    const $q = useQuasar()
-    onMounted(() => {
-      $q.notify({
-        color: 'green-4',
-        textColor: 'white',
-        icon: 'cloud_done',
-        message: 'Login Success'
+  export default {
+    name: 'Home',
+    components: {
+      HelloWorld,
+    },
+    setup() {
+      const $q = useQuasar()
+      onMounted(() => {
+        $q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Login Success',
+        })
+        getCms()
       })
-      getCms()
-    })
-    const getCms = () => {
-      contentApi.get(2).then((res) => {
-        console.log(2)
-      })
-    }
-    return {
-      getCms
-    }
+      const getCms = () => {
+        userApi.currentUser().then((res) => {
+          console.log(res)
+        })
+      }
+      return {
+        getCms,
+      }
+    },
   }
-}
 </script>
