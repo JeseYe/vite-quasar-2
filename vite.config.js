@@ -19,7 +19,7 @@ export default defineConfig({
   },
   server: {
     https: false,
-    port: 8083,
+    port: 3000,
     compress: true,
     proxy: {
       '/api': {
