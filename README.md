@@ -22,3 +22,11 @@ node node_modules/esbuild/install.js
 
 npm run dev
 ```
+
+
+1. Quasar 
+2. Components auto importing
+3. File based routing
+4. Use icons from any icon sets, with no compromise
+  {prefix}-{collection}-{icon}
+  The collection field follows [Iconify's collection IDs.](https://iconify.design/icon-sets/)
