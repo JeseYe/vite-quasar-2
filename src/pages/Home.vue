@@ -24,12 +24,6 @@
     setup() {
       const $q = useQuasar()
       onMounted(() => {
-        $q.notify({
-          color: 'green-4',
-          textColor: 'white',
-          icon: 'cloud_done',
-          message: 'Login Success',
-        })
         getCms()
       })
       const getCms = () => {

@@ -132,7 +132,7 @@
   import { ref, reactive, toRefs } from 'vue'
   import { userApi } from '@/api/user'
   import { useRoute, useRouter } from 'vue-router'
-  import { decrypt, encrypt } from '@/util/crypto'
+  import { decrypt } from '@/util/crypto'
   import { useStore } from 'vuex'
   import SlideDialog from 'src/components/SlideDialog.vue'
   export default {
@@ -171,7 +171,10 @@
         state.form.captcha = captcha
         userApi.login(qs.stringify(state.form)).then((res) => {
           if (res.code == 200) {
-            $store.dispatch('User/updateToken', res.data)
+            //          state.accessToken = data.accessToken
+            // state.refreshToken = data.refreshToken
+            const data = {}
+            // $store.dispatch('User/updateToken', res.data)
             $q.notify({
               type: 'positive',
               message: 'Login Success',

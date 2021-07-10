@@ -19,7 +19,8 @@ const parseError = (result) => {
     Notify.create({
       type: 'warning',
       position: 'top',
-      message: errorMsgs[result.message] || errorMsgs['defaultErrorMessage'],
+      message:
+        errorMsgs[result.message] || errorMsgs[result.code] || errorMsgs['defaultErrorMessage'],
     })
   }
 }
