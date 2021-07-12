@@ -1,6 +1,5 @@
 import { Notify, LocalStorage } from 'quasar'
 import 'quasar/dist/quasar.prod.css'
-import '@quasar/extras/material-icons/material-icons.css'
 
 export const quasarConfig = {
   config: {
@@ -12,13 +11,13 @@ export const quasarConfig = {
       positive: '#21BA45',
       negative: '#C10015',
       info: '#31CCEC',
-      warning: '#F2C037',
+      warning: '#F2C037'
     },
-    globalProperties: {},
+    globalProperties: {}
     // dark: true
   },
   plugins: {
     Notify,
-    LocalStorage,
-  },
+    LocalStorage
+  }
 }
