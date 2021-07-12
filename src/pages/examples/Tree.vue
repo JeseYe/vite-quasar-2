@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 未完全实现， 参考https://codepen.io/Evertvdw/details/Bajqedj  -->
     <q-tree ref="tree" :nodes="simple" node-key="label" default-expand-all class="mett-page-tree">
       <template v-slot:default-header="prop">
         <div
@@ -20,11 +21,11 @@
 </template>
 
 <script>
-  export default {
-    setup() {
-      return {}
-    },
+export default {
+  setup() {
+    return {}
   }
+}
 </script>
 
 <style lang="scss" scoped></style>

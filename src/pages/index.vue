@@ -23,7 +23,6 @@ export default {
     HelloWorld
   },
   setup() {
-    const $q = useQuasar()
     onMounted(() => {
       getCms()
     })

@@ -12,7 +12,7 @@
           :rules="rules.username"
         >
           <template #prepend>
-            <q-icon name="perm_identity" />
+            <icon-ic-baseline-perm-identity />
           </template>
         </q-input>
 
@@ -25,7 +25,7 @@
           :rules="rules.password"
         >
           <template #prepend>
-            <q-icon name="lock" />
+            <icon-bx-bx-lock-alt />
           </template>
         </q-input>
         <!-- <q-toggle v-model="accept" label="记住密码" /> -->
@@ -127,139 +127,133 @@
   </div>
 </template>
 <script>
-  import qs from 'qs'
-  import { useQuasar } from 'quasar'
-  import { ref, reactive, toRefs } from 'vue'
-  import { userApi } from '@/api/user'
-  import { useRoute, useRouter } from 'vue-router'
-  import { decrypt } from '@/util/crypto'
-  import { useStore } from 'vuex'
-  import SlideDialog from 'src/components/SlideDialog.vue'
-  export default {
-    components: {
-      SlideDialog,
-    },
-    setup() {
-      const $q = useQuasar()
+import qs from 'qs'
+import { useQuasar } from 'quasar'
+import { ref, reactive, toRefs } from 'vue'
+import { userApi } from '@/api/user'
+import { useRouter } from 'vue-router'
+import { decrypt } from '@/util/crypto'
+import SlideDialog from 'src/components/SlideDialog.vue'
+export default {
+  components: {
+    SlideDialog
+  },
+  setup() {
+    const $q = useQuasar()
 
-      const state = reactive({
-        form: { username: '', password: '', rememberMe: false, captcha: null },
+    const state = reactive({
+      form: { username: '', password: '', rememberMe: false, captcha: null }
+    })
+
+    const rules = {
+      username: [(val) => (val && val.length > 0) || '请输入用户名'],
+      password: [(val) => (val && val.length > 0) || '请输入用户名'],
+      rememberMe: [(val) => !!val || 'You need to accept the license and terms first']
+    }
+    const onSubmit = async () => {
+      showSlideDialog.value = true
+    }
+
+    const onReset = () => {
+      state.form = { username: '', password: '', rememberMe: false, captcha: null }
+    }
+    const onSlideFail = () => {
+      console.log(162)
+      showSlideDialog.value = false
+    }
+    const onSlideVerify = (captcha) => {
+      console.log(captcha)
+      console.log(decrypt(captcha))
+      showSlideDialog.value = false
+      state.form.captcha = captcha
+      userApi.login(qs.stringify(state.form)).then((res) => {
+        if (res.code == 200) {
+          const { accessToken, refreshToken } = res.data
+          console.log($q.localStorage)
+          $q.localStorage.set('User/accessToken', {
+            expiresAt: accessToken.expiresAt,
+            tokenValue: accessToken.tokenValue
+          })
+
+          $q.localStorage.set('User/refreshToken', {
+            expiresAt: refreshToken.expiresAt,
+            tokenValue: refreshToken.tokenValue
+          })
+          $q.notify({
+            type: 'positive',
+            message: 'Login Success'
+          })
+          // console.log($store.getters['User/getAccessToken'])
+          router.push({ path: '/' })
+        }
       })
+    }
 
-      const rules = {
-        username: [(val) => (val && val.length > 0) || '请输入用户名'],
-        password: [(val) => (val && val.length > 0) || '请输入用户名'],
-        rememberMe: [(val) => !!val || 'You need to accept the license and terms first'],
-      }
-      const onSubmit = async () => {
-        showSlideDialog.value = true
-      }
+    const router = new useRouter()
 
-      const onReset = () => {
-        state.form = { username: '', password: '', rememberMe: false, captcha: null }
-      }
-      const onSlideFail = () => {
-        console.log(162)
-        showSlideDialog.value = false
-      }
-      const onSlideVerify = (captcha) => {
-        console.log(captcha)
-        console.log(decrypt(captcha))
-        showSlideDialog.value = false
-        state.form.captcha = captcha
-        userApi.login(qs.stringify(state.form)).then((res) => {
-          if (res.code == 200) {
-            const { accessToken, refreshToken } = res.data
-            console.log($q.localStorage)
-            $q.localStorage.set('User/accessToken', {
-              expiresAt: accessToken.expiresAt,
-              tokenValue: accessToken.tokenValue,
-            })
-
-            $q.localStorage.set('User/refreshToken', {
-              expiresAt: refreshToken.expiresAt,
-              tokenValue: refreshToken.tokenValue,
-            })
-            //          state.accessToken = data.accessToken
-            // state.refreshToken = data.refreshToken
-            const data = {}
-            // $store.dispatch('User/updateToken', res.data)
-            $q.notify({
-              type: 'positive',
-              message: 'Login Success',
-            })
-            // console.log($store.getters['User/getAccessToken'])
-            router.push({ path: '/' })
-          }
-        })
-      }
-
-      const router = new useRouter()
-      const $store = useStore()
-
-      const showSlideDialog = ref(false)
-      return {
-        ...toRefs(state),
-        showSlideDialog,
-        rules,
-        onSubmit,
-        onReset,
-        onSlideFail,
-        onSlideVerify,
-      }
-    },
+    const showSlideDialog = ref(false)
+    return {
+      ...toRefs(state),
+      showSlideDialog,
+      rules,
+      onSubmit,
+      onReset,
+      onSlideFail,
+      onSlideVerify
+    }
   }
+}
 </script>
 <style lang="scss">
-  .page-login {
-    .q-field--with-bottom {
-      padding: 18px 0;
-    }
+.page-login {
+  .q-field--with-bottom {
+    padding: 18px 0;
   }
+}
 </style>
 <style lang="scss" scoped>
-  .page-login {
-    width: 100%;
-    min-height: 100vh;
+.page-login {
+  width: 100%;
+  min-height: 100vh;
+  // display: flex;
+  // flex-wrap: wrap;
+  // justify-content: center;
+  // align-items: center;
+  // padding: 15px;
+  background: #9053c7;
+  background: linear-gradient(-135deg, #c850c0, #4158d0);
+
+  .login-container {
+    max-width: 1080px;
+    // width: 960px;
     // display: flex;
     // flex-wrap: wrap;
-    // justify-content: center;
-    // align-items: center;
-    // padding: 15px;
-    background: #9053c7;
-    background: linear-gradient(-135deg, #c850c0, #4158d0);
-
-    .login-container {
-      max-width: 1080px;
-      // width: 960px;
-      // display: flex;
-      // flex-wrap: wrap;
-      .form-login {
-        background: #f4f5f7 !important;
-        box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07) !important;
-        border-radius: 10px;
-        padding: 1rem 2rem;
-        margin: 0 auto;
+    .form-login {
+      background: #f4f5f7 !important;
+      box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07) !important;
+      border-radius: 10px;
+      padding: 1rem 2rem;
+      margin: 0 auto;
+    }
+    .q-checkbox {
+      margin-top: 0px;
+      user-select: none;
+    }
+    .btn-submit {
+      height: 56px;
+      &::before {
+        border-color: rgba(0, 0, 0, 0.24);
       }
-      .q-checkbox {
-        margin-top: 0px;
-        user-select: none;
-      }
-      .btn-submit {
-        height: 56px;
-        &::before {
-          border-color: rgba(0, 0, 0, 0.24);
-        }
-      }
-      .oath {
-        .icon {
-          width: 50px;
-          height: 50px;
-          cursor: pointer;
-        }
+    }
+    .oath {
+      .icon {
+        width: 50px;
+        height: 50px;
+        cursor: pointer;
       }
     }
   }
+}
 </style>
 <route lang="yaml">
 meta:

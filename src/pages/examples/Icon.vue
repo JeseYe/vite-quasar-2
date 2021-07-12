@@ -7,6 +7,7 @@
       <icon-mdi-bookmark class="text-warning text-h3" />
       <icon-mdi-stars class="text-accent text-h2" />
       <icon-mdi-beenhere class="text-dark text-h5" />
+      <icon-mdi-arrow-right />
       <icon-ic-outline-favorite class="text-info text-h2" />
     </div>
 
@@ -15,6 +16,7 @@
     <div>
       The collection field follows
 
+      <span> https://icones.js.org/</span>
       <a href="https://iconify.design/icon-sets/" class="text-primary">Iconify's collection IDs.</a
       >, search icon from searchBar
     </div>

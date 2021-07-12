@@ -1,7 +1,7 @@
 <template>
   <q-header class="bg-white text-primary page-header">
     <q-toolbar>
-      <q-toolbar-title class="cursor-pointer" @click="$router.push({ path: '/' })">
+      <q-toolbar-title class="cursor-pointer" @click="router.push({ path: '/' })">
         Quasar App
       </q-toolbar-title>
     </q-toolbar>
@@ -41,9 +41,9 @@ import { useRouter } from 'vue-router'
 export default defineComponent({
   name: 'MainLayout',
   setup() {
-    const $router = useRouter()
+    const router = useRouter()
     return {
-      $router
+      router
     }
   }
 })
