@@ -156,9 +156,7 @@
       }
 
       const onReset = () => {
-        name.value = null
-        age.value = null
-        accept.value = false
+        state.form = { username: '', password: '', rememberMe: false, captcha: null }
       }
       const onSlideFail = () => {
         console.log(162)
@@ -171,6 +169,17 @@
         state.form.captcha = captcha
         userApi.login(qs.stringify(state.form)).then((res) => {
           if (res.code == 200) {
+            const { accessToken, refreshToken } = res.data
+            console.log($q.localStorage)
+            $q.localStorage.set('User/accessToken', {
+              expiresAt: accessToken.expiresAt,
+              tokenValue: accessToken.tokenValue,
+            })
+
+            $q.localStorage.set('User/refreshToken', {
+              expiresAt: refreshToken.expiresAt,
+              tokenValue: refreshToken.tokenValue,
+            })
             //          state.accessToken = data.accessToken
             // state.refreshToken = data.refreshToken
             const data = {}

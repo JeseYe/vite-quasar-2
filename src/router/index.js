@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { LocalStorage } from 'quasar'
 
 const routes = [
   {
@@ -26,10 +27,31 @@ const routes = [
     component: () => import('src/pages/Register.vue'),
   },
 ]
-console.log(routes)
 const router = createRouter({
   history: createWebHistory(),
   routes,
 })
 
+router.beforeEach((to, from, next) => {
+  const accessToken = LocalStorage.getItem('User/accessToken') || {}
+  const publicRoutes = ['login', 'SmsLogin', 'TestFormLogin', 'PasswordReset', 'Oauth', 'ScanCode']
+
+  if (!publicRoutes.includes(to.name) && !accessToken.tokenValue) {
+    LocalStorage.set('lastUrl', to.path)
+    console.log('Requested url rejected: ' + LocalStorage.getItem('lastUrl'))
+
+    next({ name: 'login' })
+
+    return
+  }
+
+  if (to.name === 'Logout') {
+    LocalStorage.remove('lastUrl')
+    LocalStorage.remove('User/accessToken')
+    next({ name: 'Login', params: { msgType: 'fromLogout' } })
+    return
+  }
+
+  next()
+})
 export default router
