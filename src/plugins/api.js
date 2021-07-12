@@ -10,17 +10,16 @@ const parseError = (result) => {
     localStorage.setItem('lastUrl', router.currentRoute.fullPath)
     setTimeout(() => {
       router.push({
-        name: 'about',
-        params: { redirect: router.currentRoute.fullPath },
+        name: 'About',
+        params: { redirect: router.currentRoute.fullPath }
       })
     }, 1000)
-    console.warning('Requested url rejected: ')
   } else {
     Notify.create({
       type: 'warning',
       position: 'top',
       message:
-        errorMsgs[result.message] || errorMsgs[result.code] || errorMsgs['defaultErrorMessage'],
+        errorMsgs[result.message] || errorMsgs[result.code] || errorMsgs['defaultErrorMessage']
     })
   }
 }

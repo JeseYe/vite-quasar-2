@@ -44,3 +44,5 @@ https://github.com/SortableJS/vue.draggable.next
 https://github.com/bevacqua/dragula
 https://github.com/kutlugsahin/vue-smooth-dnd
 
+
+## 指定layout

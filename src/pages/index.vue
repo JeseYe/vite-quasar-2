@@ -5,35 +5,36 @@
     <q-btn label="hello" rounded size="md" />
 
     <q-icon name="event" size="md" />
+    <icon-mdi-notification-clear-all class="text-h6 text-weight-bold" />
     <router-link to="/about">About</router-link>
   </div>
 </template>
 
 <script>
-  // @ is an alias to /src
-  import HelloWorld from 'src/components/HelloWorld.vue'
-  import { userApi } from 'src/api/user'
-  import { onMounted } from 'vue'
-  import { useQuasar } from 'quasar'
+// @ is an alias to /src
+import HelloWorld from 'src/components/HelloWorld.vue'
+import { userApi } from 'src/api/user'
+import { onMounted } from 'vue'
+import { useQuasar } from 'quasar'
 
-  export default {
-    name: 'Home',
-    components: {
-      HelloWorld,
-    },
-    setup() {
-      const $q = useQuasar()
-      onMounted(() => {
-        getCms()
+export default {
+  name: 'Home',
+  components: {
+    HelloWorld
+  },
+  setup() {
+    const $q = useQuasar()
+    onMounted(() => {
+      getCms()
+    })
+    const getCms = () => {
+      userApi.currentUser().then((res) => {
+        console.log(res)
       })
-      const getCms = () => {
-        userApi.currentUser().then((res) => {
-          console.log(res)
-        })
-      }
-      return {
-        getCms,
-      }
-    },
+    }
+    return {
+      getCms
+    }
   }
+}
 </script>
