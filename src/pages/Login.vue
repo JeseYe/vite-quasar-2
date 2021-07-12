@@ -132,7 +132,7 @@
   import { ref, reactive, toRefs } from 'vue'
   import { userApi } from '@/api/user'
   import { useRoute, useRouter } from 'vue-router'
-  import { decrypt, encrypt } from '@/util/crypto'
+  import { decrypt } from '@/util/crypto'
   import { useStore } from 'vuex'
   import SlideDialog from 'src/components/SlideDialog.vue'
   export default {
@@ -156,9 +156,7 @@
       }
 
       const onReset = () => {
-        name.value = null
-        age.value = null
-        accept.value = false
+        state.form = { username: '', password: '', rememberMe: false, captcha: null }
       }
       const onSlideFail = () => {
         console.log(162)
@@ -171,7 +169,21 @@
         state.form.captcha = captcha
         userApi.login(qs.stringify(state.form)).then((res) => {
           if (res.code == 200) {
-            $store.dispatch('User/updateToken', res.data)
+            const { accessToken, refreshToken } = res.data
+            console.log($q.localStorage)
+            $q.localStorage.set('User/accessToken', {
+              expiresAt: accessToken.expiresAt,
+              tokenValue: accessToken.tokenValue,
+            })
+
+            $q.localStorage.set('User/refreshToken', {
+              expiresAt: refreshToken.expiresAt,
+              tokenValue: refreshToken.tokenValue,
+            })
+            //          state.accessToken = data.accessToken
+            // state.refreshToken = data.refreshToken
+            const data = {}
+            // $store.dispatch('User/updateToken', res.data)
             $q.notify({
               type: 'positive',
               message: 'Login Success',
@@ -249,3 +261,7 @@
     }
   }
 </style>
+<route lang="yaml">
+meta:
+  layout: blank
+</route>

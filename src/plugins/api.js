@@ -1,8 +1,8 @@
 import router from 'src/router'
 import axios from 'axios'
 
-import errorMsgs from 'src/util/lang.js'
-import { Notify } from 'quasar'
+import errorMsgs from '@/lang/lang.js'
+import { LocalStorage, Notify } from 'quasar'
 
 const parseError = (result) => {
   console.log('parseError', result)
@@ -19,12 +19,14 @@ const parseError = (result) => {
     Notify.create({
       type: 'warning',
       position: 'top',
-      message: errorMsgs[result.message] || errorMsgs['defaultErrorMessage'],
+      message:
+        errorMsgs[result.message] || errorMsgs[result.code] || errorMsgs['defaultErrorMessage'],
     })
   }
 }
 axios.interceptors.request.use((req) => {
-  const accessToken = localStorage.getItem('User/getAccessToken') || {}
+  const accessToken = LocalStorage.getItem('User/accessToken') || {}
+  console.log(accessToken)
   if (accessToken.tokenValue) {
     req.headers.Authorization = 'Bearer ' + accessToken.tokenValue
   }

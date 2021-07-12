@@ -22,3 +22,25 @@ node node_modules/esbuild/install.js
 
 npm run dev
 ```
+
+
+1. Quasar 
+2. Components auto importing
+3. File based routing
+4. Use icons from any icon sets, with no compromise
+  {prefix}-{collection}-{icon}
+  The collection field follows [Iconify's collection IDs.](https://iconify.design/icon-sets/
+
+
+## Customizable draggable tree component for Vue.js
+
+基于 vue.draggable  和 quasar 构造可拖动的tree
+
+https://github.com/holiber/sl-vue-tree
+https://codepen.io/Evertvdw/details/Bajqedj [参考]
+https://github.com/mayank091193/quasar-draggable-tree [参考]
+
+https://github.com/SortableJS/vue.draggable.next
+https://github.com/bevacqua/dragula
+https://github.com/kutlugsahin/vue-smooth-dnd
+

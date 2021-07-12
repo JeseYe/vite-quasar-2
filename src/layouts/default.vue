@@ -68,82 +68,82 @@
 </template>
 
 <script>
-import EssentialLink from '../components/EssentialLink.vue'
-const linksList = [
-  {
-    title: 'Homepage',
-    caption: 'quasar.dev',
-    icon: 'home',
-    link: '/',
-    target: '_self'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework',
-    target: '_blank'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev',
-    target: '_blank'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev',
-    target: '_blank'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev',
-    target: '_blank'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev',
-    target: '_blank'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev',
-    target: '_blank'
-  }
-]
+  import EssentialLink from '../components/EssentialLink.vue'
+  const linksList = [
+    {
+      title: 'Homepage',
+      caption: 'quasar.dev',
+      icon: 'home',
+      link: '/',
+      target: '_self',
+    },
+    {
+      title: 'Github',
+      caption: 'github.com/quasarframework',
+      icon: 'code',
+      link: 'https://github.com/quasarframework',
+      target: '_blank',
+    },
+    {
+      title: 'Discord Chat Channel',
+      caption: 'chat.quasar.dev',
+      icon: 'chat',
+      link: 'https://chat.quasar.dev',
+      target: '_blank',
+    },
+    {
+      title: 'Forum',
+      caption: 'forum.quasar.dev',
+      icon: 'record_voice_over',
+      link: 'https://forum.quasar.dev',
+      target: '_blank',
+    },
+    {
+      title: 'Twitter',
+      caption: '@quasarframework',
+      icon: 'rss_feed',
+      link: 'https://twitter.quasar.dev',
+      target: '_blank',
+    },
+    {
+      title: 'Facebook',
+      caption: '@QuasarFramework',
+      icon: 'public',
+      link: 'https://facebook.quasar.dev',
+      target: '_blank',
+    },
+    {
+      title: 'Quasar Awesome',
+      caption: 'Community Quasar projects',
+      icon: 'favorite',
+      link: 'https://awesome.quasar.dev',
+      target: '_blank',
+    },
+  ]
 
-import { defineComponent, ref } from 'vue'
+  import { defineComponent, ref } from 'vue'
 
-export default defineComponent({
-  name: 'MainLayout',
+  export default defineComponent({
+    name: 'MainLayout',
 
-  components: {
-    EssentialLink
-  },
+    components: {
+      EssentialLink,
+    },
 
-  setup() {
-    const leftDrawerOpen = ref(false)
+    setup() {
+      const leftDrawerOpen = ref(false)
 
-    // const { lang, langOptions } = useLangSwitcher()
-    return {
-      // lang,
-      // langOptions,
-      essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value
+      // const { lang, langOptions } = useLangSwitcher()
+      return {
+        // lang,
+        // langOptions,
+        essentialLinks: linksList,
+        leftDrawerOpen,
+        toggleLeftDrawer() {
+          leftDrawerOpen.value = !leftDrawerOpen.value
+        },
       }
-    }
-  }
-})
+    },
+  })
 </script>
 <style lang="scss" scoped></style>

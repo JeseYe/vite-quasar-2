@@ -14,18 +14,24 @@
   </p>
 </template>
 
-<script setup>
-import { defineProps, reactive } from 'vue'
+<script>
+  import { reactive } from 'vue'
+  export default {
+    props: {
+      msg: String,
+    },
 
-defineProps({
-  msg: String
-})
-
-const state = reactive({ count: 0 })
+    setup() {
+      const state = reactive({ count: 0 })
+      return {
+        state,
+      }
+    },
+  }
 </script>
 
 <style scoped>
-a {
-  color: #42b983;
-}
+  a {
+    color: #42b983;
+  }
 </style>
