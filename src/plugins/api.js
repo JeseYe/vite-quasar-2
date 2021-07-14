@@ -23,7 +23,9 @@ const parseError = (result) => {
     })
   }
 }
-axios.interceptors.request.use((req) => {
+const api = axios.create({})
+
+api.interceptors.request.use((req) => {
   const accessToken = LocalStorage.getItem('User/accessToken') || {}
   console.log(accessToken)
   if (accessToken.tokenValue) {
@@ -32,7 +34,7 @@ axios.interceptors.request.use((req) => {
   return req
 })
 // 响应拦截
-axios.interceptors.response.use(
+api.interceptors.response.use(
   (res) => {
     let result = res.data || {}
     if (result.status === 'fail') {
@@ -41,12 +43,10 @@ axios.interceptors.response.use(
     return result || { data: {} }
   },
   (err) => {
-    console.log(42, err)
     const result = err.response
     parseError(result)
     return Promise.reject(result)
   }
 )
-const api = axios
 
 export { api, axios }

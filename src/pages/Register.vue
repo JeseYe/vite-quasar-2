@@ -4,7 +4,7 @@
       <q-form class="form-login col-12 col-md-5" @submit="onSubmit" @reset="onReset">
         <div class="text-h4 q-ma-sm">注册</div>
         <q-input
-          v-model="name"
+          v-model="form.email"
           outlined
           label="邮箱"
           hint="填写邮箱"
@@ -17,7 +17,7 @@
         </q-input>
 
         <q-input
-          v-model="name"
+          v-model="form.username"
           outlined
           label="用户名"
           hint="用户名可输入中文或者英文"
@@ -30,7 +30,7 @@
         </q-input>
 
         <q-input
-          v-model="age"
+          v-model="form.password"
           outlined
           label="密码"
           lazy-rules
@@ -42,7 +42,7 @@
         </q-input>
 
         <q-input
-          v-model="age"
+          v-model="form.authCode"
           outlined
           label="验证码"
           lazy-rules
@@ -71,7 +71,7 @@
 
         <div class="oath flex">
           <div class="title full-width text-center q-pt-md">社交帐号注册</div>
-          <div class="q-gutter-md full-width text-center q-pt-sm">
+          <div class="q-gutter-md full-width text-center q-pt-sm flex justify-center">
             <svg
               t="1615200042776"
               class="icon"
@@ -147,98 +147,118 @@
   </div>
 </template>
 <script>
-  import { useQuasar } from 'quasar'
-  import { ref } from 'vue'
+import { useQuasar } from 'quasar'
+import { reactive, ref, toRefs } from 'vue'
+import { userApi } from 'src/api/user'
+import { useRouter } from 'vue-router'
+export default {
+  setup() {
+    const $q = useQuasar()
 
-  export default {
-    setup() {
-      const $q = useQuasar()
-
-      const name = ref(null)
-      const age = ref(null)
-      const accept = ref(false)
-
-      return {
-        name,
-        age,
-        accept,
-
-        onSubmit() {
-          if (accept.value !== true) {
-            $q.notify({
-              color: 'red-5',
-              textColor: 'white',
-              icon: 'warning',
-              message: 'You need to accept the license and terms first',
-            })
-          } else {
-            $q.notify({
-              color: 'green-4',
-              textColor: 'white',
-              icon: 'cloud_done',
-              message: 'Submitted',
-            })
-          }
-        },
-
-        onReset() {
-          name.value = null
-          age.value = null
-          accept.value = false
-        },
+    let state = reactive({
+      form: {
+        email: '',
+        username: '',
+        password: '',
+        authCode: '',
+        accept: false,
+        captcha: null
       }
-    },
+    })
+    const accept = ref(false)
+
+    const onSubmit = () => {
+      if (accept.value !== true) {
+        $q.notify({
+          type: 'warning',
+          message: 'You need to accept the license and terms first'
+        })
+      } else {
+        userApi.register(state.form).then((res) => {
+          console.log(176, res)
+          if (res.code == 200) {
+            $q.notify({
+              type: 'positive',
+              message: 'Registered Success'
+            })
+            const router = useRouter()
+            router.push({ path: '/login' })
+          }
+        })
+      }
+    }
+    const onReset = () => {
+      state = reactive({
+        email: '',
+        username: '',
+        password: '',
+        authCode: '',
+        captcha: null
+      })
+    }
+
+    return {
+      ...toRefs(state),
+      accept,
+      onSubmit,
+      onReset
+    }
   }
+}
 </script>
 <style>
-  .page-register .q-field--with-bottom {
-    padding: 18px 0;
-  }
+.page-register .q-field--with-bottom {
+  padding: 18px 0;
+}
 </style>
 <style lang="scss" scoped>
-  .page-register {
-    width: 100%;
-    min-height: 100vh;
-    // display: flex;
-    // flex-wrap: wrap;
-    // justify-content: center;
-    // align-items: center;
-    // padding: 15px;
-    background: #9053c7;
-    background: linear-gradient(-135deg, #c850c0, #4158d0);
+.page-register {
+  width: 100%;
+  min-height: 100vh;
+  // display: flex;
+  // flex-wrap: wrap;
+  // justify-content: center;
+  // align-items: center;
+  // padding: 15px;
+  background: #9053c7;
+  background: linear-gradient(-135deg, #c850c0, #4158d0);
 
-    .login-container {
-      // width: 960px;
-      max-width: 1080px;
-      .form-login {
-        background: #f4f5f7 !important;
+  .login-container {
+    // width: 960px;
+    max-width: 1080px;
+    .form-login {
+      background: #f4f5f7 !important;
 
-        border-radius: 10px;
-        // overflow: hidden;
-        // display: flex;
-        // flex-wrap: wrap;
-        // justify-content: space-between;
-        padding: 1rem 2rem;
-        box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07) !important;
-        margin: 0 auto;
+      border-radius: 10px;
+      // overflow: hidden;
+      // display: flex;
+      // flex-wrap: wrap;
+      // justify-content: space-between;
+      padding: 1rem 2rem;
+      box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07) !important;
+      margin: 0 auto;
+    }
+    .q-checkbox {
+      margin-top: -6px;
+      user-select: none;
+    }
+    .btn-submit {
+      height: 56px;
+      &::before {
+        border-color: rgba(0, 0, 0, 0.24);
       }
-      .q-checkbox {
-        margin-top: -6px;
-        user-select: none;
-      }
-      .btn-submit {
-        height: 56px;
-        &::before {
-          border-color: rgba(0, 0, 0, 0.24);
-        }
-      }
-      .oath {
-        .icon {
-          width: 50px;
-          height: 50px;
-          cursor: pointer;
-        }
+    }
+    .oath {
+      .icon {
+        width: 50px;
+        height: 50px;
+        cursor: pointer;
       }
     }
   }
+}
 </style>
+<route lang="yaml">
+meta:
+  layout: blank
+</route>

@@ -4,16 +4,43 @@ import { LocalStorage } from 'quasar'
 import { setupLayouts } from 'virtual:generated-layouts'
 import generatedRoutes from 'virtual:generated-pages'
 
+// 手动实现layout
+// const routes = [
+//   {
+//     path: '',
+//     component: () => import('src/layouts/default.vue'),
+//     children: [
+//       {
+//         path: '/',
+//         component: () => import('src/pages/Index.vue')
+//       },
+//       ...generatedRoutes
+//     ]
+//   },
+//   {
+//     path: '/login',
+//     component: () => import('../pages/login.vue')
+//   },
+//   {
+//     path: '/register',
+//     component: () => import('../pages/register.vue')
+//   },
+//   {
+//     path: '/:catchAll(.*)*',
+//     component: () => import('../pages/_404.vue')
+//   }
+// ]
+
 const routes = setupLayouts(generatedRoutes)
 console.log(routes)
 const router = createRouter({
   history: createWebHistory(),
-  routes,
+  routes
 })
 
 router.beforeEach((to, from, next) => {
   const accessToken = LocalStorage.getItem('User/accessToken') || {}
-  const publicRoutes = ['Login', 'SmsLogin', 'TestFormLogin', 'PasswordReset', 'Oauth', 'ScanCode']
+  const publicRoutes = ['Login', 'Register']
 
   if (!publicRoutes.includes(to.name) && !accessToken.tokenValue) {
     LocalStorage.set('lastUrl', to.path)

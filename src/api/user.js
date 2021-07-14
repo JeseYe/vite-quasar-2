@@ -6,13 +6,14 @@ export const userApi = {
       headers: {
         accept: 'application/json',
         'accept-language': 'UTF-8',
-        'content-type': 'application/x-www-form-urlencoded',
-      },
+        'content-type': 'application/x-www-form-urlencoded'
+      }
     }),
+  register: (form) => api.post('api/users/registration', form),
   captchaLogin: (form) => api.post('/api/captcha/login', form),
-  currentUser: () => api.get('/api/users/current'),
+  currentUser: () => api.get('/api/users/current')
 }
 
 export const captchaApi = {
-  sendCaptchaCode: (contact) => api.post(`/api/captcha/${contact}`),
+  sendCaptchaCode: (contact) => api.post(`/api/captcha/${contact}`)
 }

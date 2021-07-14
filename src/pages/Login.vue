@@ -43,7 +43,7 @@
 
         <div class="oath flex">
           <div class="title full-width text-center q-pt-md">社交帐号登录</div>
-          <div class="q-gutter-md full-width text-center q-pt-sm">
+          <div class="q-gutter-md full-width text-center q-pt-sm flex justify-center">
             <svg
               t="1615200042776"
               class="icon"
