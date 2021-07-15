@@ -1,9 +1,54 @@
 <template>
-  <q-header class="bg-white text-primary page-header">
-    <q-toolbar>
-      <q-toolbar-title class="cursor-pointer" @click="router.push({ path: '/' })">
-        Quasar App
-      </q-toolbar-title>
+  <q-header class="bg-white text-primary shadow-sm">
+    <q-toolbar class="w-screen-xl m-auto">
+      <span class="cursor-pointer text-xl" @click="router.push({ path: '/' })"> Quasar App </span>
+
+      <q-tabs v-model="tab" inline-label class="text-primary">
+        <q-tab :ripple="false" name="homepage" icon="home" label="首页" />
+        <q-tab :ripple="false" name="authority" icon="verified_user" label="权限管理"> </q-tab>
+        <q-tab :ripple="false" name="syslog" icon="content_copy" label="日志管理"> </q-tab>
+        <q-tab :ripple="false" name="cat" icon="category" label="分类入口">
+          <q-menu>
+            <q-list style="min-width: 100px">
+              <q-item clickable v-close-popup>
+                <q-item-section>Open...</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup>
+                <q-item-section>New</q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item clickable>
+                <q-item-section>Preferences</q-item-section>
+                <q-item-section side>
+                  <q-icon name="keyboard_arrow_right" />
+                </q-item-section>
+
+                <q-menu anchor="top end" self="top start">
+                  <q-list>
+                    <q-item v-for="n in 3" :key="n" clickable>
+                      <q-item-section>Submenu Label</q-item-section>
+                      <q-item-section side>
+                        <q-icon name="keyboard_arrow_right" />
+                      </q-item-section>
+                      <q-menu auto-close anchor="top end" self="top start">
+                        <q-list>
+                          <q-item v-for="n in 3" :key="n" clickable>
+                            <q-item-section>3rd level Label</q-item-section>
+                          </q-item>
+                        </q-list>
+                      </q-menu>
+                    </q-item>
+                  </q-list>
+                </q-menu>
+              </q-item>
+              <q-separator />
+              <q-item clickable v-close-popup>
+                <q-item-section>Quit</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-tab>
+      </q-tabs>
     </q-toolbar>
   </q-header>
 
@@ -36,13 +81,16 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 export default defineComponent({
   name: 'MainLayout',
   setup() {
     const router = useRouter()
+
+    const tab = ref('homepage')
     return {
+      tab,
       router
     }
   }
@@ -56,7 +104,7 @@ export default defineComponent({
   width: 1280px;
   flex: 1;
 
-  margin: 74px auto 0;
+  margin: 70px auto 0;
   border-radius: 4px;
   border: 1px solid #ebeef5;
   color: #303133;
